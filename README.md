@@ -30,3 +30,48 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## Deployment
+
+### Frontend: Vercel
+
+The Vercel project uses `vercel.json`.
+
+- Framework: Vite
+- Install command: `npm ci`
+- Build command: `npm run build`
+- Output directory: `dist`
+
+Set this environment variable in Vercel:
+
+```bash
+VITE_API_URL=https://precheck-intake-api.onrender.com
+```
+
+Replace the value with the actual Render API URL after the backend is deployed.
+
+### Backend API: Render
+
+The Render backend uses `render.yaml`.
+
+- Service root directory: `server`
+- Runtime: Node
+- Build command: `npm ci && npm run build`
+- Start command: `npm start`
+- Health check: `/health`
+
+Set this environment variable when Render asks for `sync: false` values:
+
+```bash
+FRONTEND_ORIGIN=https://your-vercel-project.vercel.app
+TURSO_DATABASE_URL=libsql://your-database.turso.io
+TURSO_AUTH_TOKEN=your-turso-auth-token
+```
+
+For multiple allowed origins, use a comma-separated value:
+
+```bash
+FRONTEND_ORIGIN=https://your-vercel-project.vercel.app,https://www.example.com
+```
+
+The API stores intake responses in Turso via libSQL. Local file-based SQLite is not used by the server.

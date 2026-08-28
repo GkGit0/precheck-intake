@@ -4,10 +4,14 @@ import { createIntakeResponse, getIntakeResponse, type IntakePayload } from "./d
 
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
+const frontendOrigins = (process.env.FRONTEND_ORIGIN ?? "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
-    origin: "http://localhost:5173"
+    origin: frontendOrigins
   })
 );
 app.use(express.json());
@@ -60,6 +64,6 @@ const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
 
 app.use(errorHandler);
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Intake API server listening on http://localhost:${port}`);
 });

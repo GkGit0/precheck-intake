@@ -40,7 +40,8 @@ type ErrorResponse = {
   error?: unknown;
 };
 
-const INTAKE_ENDPOINT = "http://localhost:3001/api/intake";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+const INTAKE_ENDPOINT = `${API_URL.replace(/\/$/, "")}/api/intake`;
 
 const responseErrorMessage = async (response: Response): Promise<string> => {
   try {

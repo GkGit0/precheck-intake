@@ -1,23 +1,23 @@
-import { mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import sqlite3 from "sqlite3";
-import { open, type Database } from "sqlite";
+import { createClient, type Client, type Row } from "@libsql/client";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const defaultDbPath = join(__dirname, "..", "data", "intake.sqlite");
-const dbPath = process.env.DATABASE_URL ?? defaultDbPath;
+const tursoDatabaseUrl = process.env.TURSO_DATABASE_URL;
+const tursoAuthToken = process.env.TURSO_AUTH_TOKEN;
 
-mkdirSync(dirname(dbPath), { recursive: true });
+if (!tursoDatabaseUrl || !tursoAuthToken) {
+  throw new Error("TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are required");
+}
 
-let dbPromise: Promise<Database> | null = null;
+let dbPromise: Promise<Client> | null = null;
 
-const getDatabase = async (): Promise<Database> => {
-  dbPromise ??= open({
-    filename: dbPath,
-    driver: sqlite3.Database
-  }).then(async (database) => {
-    await database.exec(`
+const getDatabase = async (): Promise<Client> => {
+  dbPromise ??= Promise.resolve(
+    createClient({
+      url: tursoDatabaseUrl,
+      authToken: tursoAuthToken,
+      intMode: "number"
+    })
+  ).then(async (database) => {
+    await database.executeMultiple(`
       CREATE TABLE IF NOT EXISTS intake_responses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         full_name TEXT NOT NULL,
@@ -139,25 +139,49 @@ const parseArray = (value: string): string[] => {
   return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
 };
 
-const toResponse = (row: IntakeRow): IntakeResponse => ({
-  id: row.id,
-  fullName: row.full_name,
-  dob: row.dob,
-  nationality: row.nationality,
-  phone: row.phone,
-  company: row.company,
-  symptoms: parseArray(row.symptoms),
-  symptomNotes: row.symptom_notes,
-  conditions: row.conditions,
-  medications: row.medications,
-  allergies: row.allergies,
-  surgeries: row.surgeries,
-  jobType: row.job_type,
-  hoursPerWeek: row.hours_per_week,
-  physicalDemand: row.physical_demand,
-  exposures: parseArray(row.exposures),
-  createdAt: row.created_at
+const intakeRow = (row: Row): IntakeRow => ({
+  id: Number(row.id),
+  full_name: String(row.full_name),
+  dob: row.dob === null ? null : String(row.dob),
+  nationality: row.nationality === null ? null : String(row.nationality),
+  phone: row.phone === null ? null : String(row.phone),
+  company: row.company === null ? null : String(row.company),
+  symptoms: String(row.symptoms),
+  symptom_notes: row.symptom_notes === null ? null : String(row.symptom_notes),
+  conditions: row.conditions === null ? null : String(row.conditions),
+  medications: row.medications === null ? null : String(row.medications),
+  allergies: row.allergies === null ? null : String(row.allergies),
+  surgeries: row.surgeries === null ? null : String(row.surgeries),
+  job_type: row.job_type === null ? null : String(row.job_type),
+  hours_per_week: row.hours_per_week === null ? null : Number(row.hours_per_week),
+  physical_demand: row.physical_demand === null ? null : String(row.physical_demand),
+  exposures: String(row.exposures),
+  created_at: String(row.created_at)
 });
+
+const toResponse = (row: Row): IntakeResponse => {
+  const intake = intakeRow(row);
+
+  return {
+    id: intake.id,
+    fullName: intake.full_name,
+    dob: intake.dob,
+    nationality: intake.nationality,
+    phone: intake.phone,
+    company: intake.company,
+    symptoms: parseArray(intake.symptoms),
+    symptomNotes: intake.symptom_notes,
+    conditions: intake.conditions,
+    medications: intake.medications,
+    allergies: intake.allergies,
+    surgeries: intake.surgeries,
+    jobType: intake.job_type,
+    hoursPerWeek: intake.hours_per_week,
+    physicalDemand: intake.physical_demand,
+    exposures: parseArray(intake.exposures),
+    createdAt: intake.created_at
+  };
+};
 
 const selectColumns = `
   id,
@@ -186,58 +210,62 @@ export const createIntakeResponse = async (payload: IntakePayload): Promise<Inta
   }
 
   const db = await getDatabase();
-  const row = await db.get<IntakeRow>(
-    `
-    INSERT INTO intake_responses (
-      full_name,
-      dob,
-      nationality,
-      phone,
-      company,
-      symptoms,
-      symptom_notes,
-      conditions,
-      medications,
-      allergies,
-      surgeries,
-      job_type,
-      hours_per_week,
-      physical_demand,
-      exposures
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    RETURNING ${selectColumns}
-  `,
-    fullName,
-    textOrNull(payload.dob),
-    textOrNull(payload.nationality),
-    textOrNull(payload.phone),
-    textOrNull(payload.company),
-    JSON.stringify(stringArray(payload.symptoms)),
-    textOrNull(payload.symptomNotes),
-    textOrNull(payload.conditions),
-    textOrNull(payload.medications),
-    textOrNull(payload.allergies),
-    textOrNull(payload.surgeries),
-    textOrNull(payload.jobType),
-    integerOrNull(payload.hoursPerWeek),
-    textOrNull(payload.physicalDemand),
-    JSON.stringify(stringArray(payload.exposures))
-  );
+  const result = await db.execute({
+    sql: `
+      INSERT INTO intake_responses (
+        full_name,
+        dob,
+        nationality,
+        phone,
+        company,
+        symptoms,
+        symptom_notes,
+        conditions,
+        medications,
+        allergies,
+        surgeries,
+        job_type,
+        hours_per_week,
+        physical_demand,
+        exposures
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      RETURNING ${selectColumns}
+    `,
+    args: [
+      fullName,
+      textOrNull(payload.dob),
+      textOrNull(payload.nationality),
+      textOrNull(payload.phone),
+      textOrNull(payload.company),
+      JSON.stringify(stringArray(payload.symptoms)),
+      textOrNull(payload.symptomNotes),
+      textOrNull(payload.conditions),
+      textOrNull(payload.medications),
+      textOrNull(payload.allergies),
+      textOrNull(payload.surgeries),
+      textOrNull(payload.jobType),
+      integerOrNull(payload.hoursPerWeek),
+      textOrNull(payload.physicalDemand),
+      JSON.stringify(stringArray(payload.exposures))
+    ]
+  });
+  const row = result.rows[0];
 
   return row ? toResponse(row) : null;
 };
 
 export const getIntakeResponse = async (id: number): Promise<IntakeResponse | null> => {
   const db = await getDatabase();
-  const row = await db.get<IntakeRow>(
-    `
-    SELECT ${selectColumns}
-    FROM intake_responses
-    WHERE id = ?
-  `,
-    id
-  );
+  const result = await db.execute({
+    sql: `
+      SELECT ${selectColumns}
+      FROM intake_responses
+      WHERE id = ?
+    `,
+    args: [id]
+  });
+  const row = result.rows[0];
 
   return row ? toResponse(row) : null;
 };
