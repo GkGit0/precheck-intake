@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import cors from "cors";
 import express, { type ErrorRequestHandler } from "express";
 import { createIntakeResponse, getIntakeResponse, type IntakePayload } from "./db.js";

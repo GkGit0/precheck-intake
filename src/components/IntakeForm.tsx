@@ -70,12 +70,13 @@ export default function IntakeForm() {
     <button
       type="button"
       onClick={onClick}
-      className={`px-3.5 py-2 rounded-full text-sm border transition ${
+      className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm border-2 transition active:scale-95 ${
         active
-          ? "bg-[#0F6E5E] border-[#0F6E5E] text-white"
-          : "bg-white border-[#D8DDE3] text-[#3A4550] hover:border-[#0F6E5E]"
+          ? "bg-[#0F6E5E] border-[#0F6E5E] text-white shadow-[0_0_0_2px_rgba(15,110,94,0.25)] active:bg-[#0A4A3F] active:border-[#0A4A3F]"
+          : "bg-white border-[#D8DDE3] text-[#3A4550] hover:border-[#0F6E5E] active:bg-[#EAF3F0] active:border-[#0F6E5E]"
       }`}
     >
+      {active && <Check size={14} strokeWidth={3} />}
       {children}
     </button>
   );
@@ -99,8 +100,10 @@ export default function IntakeForm() {
               <button
                 key={code}
                 onClick={() => setLang(code)}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[13px] font-medium transition ${
-                  lang === code ? "bg-white shadow-sm text-[#0F6E5E]" : "text-[#6B7684]"
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[13px] font-medium transition active:scale-95 ${
+                  lang === code
+                    ? "bg-white shadow-sm text-[#0F6E5E] active:bg-[#DCE1DF]"
+                    : "text-[#6B7684] active:bg-[#E0E4E3] active:text-[#3A4550]"
                 }`}
               >
                 {code === lang && <Languages size={13} />}
@@ -274,14 +277,14 @@ export default function IntakeForm() {
               <button
                 onClick={back}
                 disabled={step === 0}
-                className="flex items-center gap-1 text-sm font-medium text-[#3A4550] disabled:opacity-0 disabled:pointer-events-none"
+                className="flex items-center gap-1 text-sm font-medium text-[#3A4550] px-2 py-1.5 -ml-2 rounded-lg transition active:scale-95 active:bg-[#E4E8E7] active:text-[#1B2733] disabled:opacity-0 disabled:pointer-events-none"
               >
                 <ChevronLeft size={16} /> {t.nav.back}
               </button>
               {step < totalSteps - 1 ? (
                 <button
                   onClick={next}
-                  className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] transition"
+                  className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] active:bg-[#0A4A3F] active:scale-95 transition"
                 >
                   {t.nav.next} <ChevronRight size={16} />
                 </button>
@@ -295,7 +298,7 @@ export default function IntakeForm() {
                   <button
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] transition disabled:cursor-not-allowed disabled:opacity-70"
+                    className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] active:bg-[#0A4A3F] active:scale-95 transition disabled:cursor-not-allowed disabled:opacity-70 disabled:active:scale-100"
                   >
                     <Check size={16} /> {submitting ? t.review.submitting : t.review.submit}
                   </button>
@@ -312,7 +315,7 @@ export default function IntakeForm() {
             <p className="text-[13.5px] text-[#6B7684] max-w-xs mb-6">{t.review.submittedSub}</p>
             <button
               onClick={restart}
-              className="text-sm font-medium text-[#0F6E5E] border border-[#0F6E5E] px-4 py-2 rounded-lg hover:bg-[#F0F9F6] transition"
+              className="text-sm font-medium text-[#0F6E5E] border border-[#0F6E5E] px-4 py-2 rounded-lg hover:bg-[#F0F9F6] active:bg-[#DCEFE8] active:scale-95 transition"
             >
               {t.review.newForm}
             </button>
