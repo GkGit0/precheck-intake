@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Check, Languages, Stethoscope } from "lucide-react";
+import { submitIntake, type IntakeFormData } from "../api/submitIntake";
 import { locales, langCodes, type LangCode } from "../locales";
 
-const emptyForm = {
+const emptyForm: IntakeFormData = {
   fullName: "", dob: "", nationality: "", phone: "", company: "",
   symptoms: [], symptomNotes: "",
   conditions: "", medications: "", allergies: "", surgeries: "",
   jobType: "", hoursPerWeek: "", physicalDemand: "", exposures: [],
+};
+
+type ArrayField = "symptoms" | "exposures";
+
+type ChipProps = {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
 };
 
 export default function IntakeForm() {
@@ -14,12 +23,14 @@ export default function IntakeForm() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(emptyForm);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const t = locales[lang];
 
   const totalSteps = t.steps.length;
 
-  const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
-  const toggleArrayItem = (key, value) => {
+  const update = <Key extends keyof IntakeFormData>(key: Key, value: IntakeFormData[Key]) => setForm((f) => ({ ...f, [key]: value }));
+  const toggleArrayItem = (key: ArrayField, value: string) => {
     setForm((f) => {
       const arr = f[key];
       return { ...f, [key]: arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value] };
@@ -29,10 +40,25 @@ export default function IntakeForm() {
   const next = () => setStep((s) => Math.min(s + 1, totalSteps - 1));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
+  const handleSubmit = async () => {
+    setSubmitError("");
+    setSubmitting(true);
+
+    try {
+      await submitIntake(form);
+      setSubmitted(true);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : t.review.submitError);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const restart = () => {
     setForm(emptyForm);
     setStep(0);
     setSubmitted(false);
+    setSubmitError("");
   };
 
   const fieldClasses =
@@ -40,7 +66,7 @@ export default function IntakeForm() {
 
   const labelClasses = "block text-sm font-medium text-[#3A4550] mb-1.5";
 
-  const Chip = ({ active, onClick, children }) => (
+  const Chip = ({ active, onClick, children }: ChipProps) => (
     <button
       type="button"
       onClick={onClick}
@@ -260,12 +286,20 @@ export default function IntakeForm() {
                   {t.nav.next} <ChevronRight size={16} />
                 </button>
               ) : (
-                <button
-                  onClick={() => setSubmitted(true)}
-                  className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] transition"
-                >
-                  <Check size={16} /> {t.review.submit}
-                </button>
+                <div className="flex flex-col items-end gap-2">
+                  {submitError && (
+                    <p className="max-w-xs text-right text-sm font-medium text-[#B42318]">
+                      {t.review.submitError}: {submitError}
+                    </p>
+                  )}
+                  <button
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="flex items-center gap-1.5 bg-[#0F6E5E] text-white text-sm font-medium px-5 py-2.5 rounded-lg hover:bg-[#0C5B4E] transition disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    <Check size={16} /> {submitting ? t.review.submitting : t.review.submit}
+                  </button>
+                </div>
               )}
             </div>
           </>

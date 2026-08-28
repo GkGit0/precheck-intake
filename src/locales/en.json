@@ -52,6 +52,8 @@
     "sub": "Please check everything looks right before submitting.",
     "editHint": "Go back to edit any section",
     "submit": "Submit form",
+    "submitting": "Submitting...",
+    "submitError": "Could not submit the form",
     "submitted": "Form submitted",
     "submittedSub": "Thank you. Your care coordinator will review this before your appointment.",
     "newForm": "Start a new form"

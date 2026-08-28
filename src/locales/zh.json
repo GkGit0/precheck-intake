@@ -52,6 +52,8 @@
     "sub": "提交前请检查所有内容是否正确。",
     "editHint": "返回可修改任意部分",
     "submit": "提交表格",
+    "submitting": "提交中...",
+    "submitError": "表格提交失败",
     "submitted": "表格已提交",
     "submittedSub": "谢谢。您的健康协调员将在预约前审核此信息。",
     "newForm": "填写新表格"
