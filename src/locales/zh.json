@@ -1,0 +1,60 @@
+{
+  "appName": "PreCheck",
+  "tagline": "健康检查前问诊表",
+  "langLabel": "中文",
+  "steps": ["基本信息", "身体症状", "病史", "工作情况", "确认"],
+  "stepOf": "第 {current} / {total} 步",
+  "stepBasics": {
+    "title": "先填写基本信息",
+    "sub": "这些信息将帮助诊所为您的就诊做好准备。",
+    "fullName": "姓名",
+    "fullNamePh": "请与在留卡上的姓名一致",
+    "dob": "出生日期",
+    "nationality": "国籍",
+    "nationalityPh": "例如：越南、印度尼西亚",
+    "phone": "电话号码",
+    "company": "雇主 / 接收单位",
+    "companyPh": "公司名称"
+  },
+  "stepSymptoms": {
+    "title": "您现在感觉怎么样？",
+    "sub": "请勾选您目前的症状，没有的话可以不选。",
+    "none": "目前没有症状",
+    "list": ["发烧", "咳嗽", "疲劳", "头痛", "胃痛", "睡眠不好", "皮肤问题", "关节或背部疼痛"],
+    "notes": "还有什么想告诉医生的吗？",
+    "notesPh": "可以用任何语言自由填写"
+  },
+  "stepHistory": {
+    "title": "既往病史",
+    "sub": "此信息将严格保密，仅提供给您的医疗团队。",
+    "conditions": "您是否有持续性的疾病？",
+    "conditionsPh": "例如：糖尿病、高血压、哮喘",
+    "medications": "您目前是否在服用药物？",
+    "medicationsPh": "如知道，请列出药物名称",
+    "allergies": "您是否有过敏史？",
+    "allergiesPh": "药物、食物或其他过敏",
+    "surgeries": "您过去是否做过手术？",
+    "surgeriesPh": "手术类型及大致年份（如有）"
+  },
+  "stepWork": {
+    "title": "关于您的工作",
+    "sub": "用于检查与工作相关的健康风险。",
+    "jobType": "工作类型",
+    "jobTypePh": "例如：食品加工、建筑、护理",
+    "hoursPerWeek": "每周大致工作时长",
+    "physicalDemand": "您的工作体力消耗程度如何？",
+    "demandLevels": ["轻松", "中等", "繁重"],
+    "exposures": "您在工作中是否经常接触以下情况？",
+    "exposureList": ["噪音", "重物搬运", "化学品", "极端高温/低温", "长时间站立"]
+  },
+  "review": {
+    "title": "确认您的答案",
+    "sub": "提交前请检查所有内容是否正确。",
+    "editHint": "返回可修改任意部分",
+    "submit": "提交表格",
+    "submitted": "表格已提交",
+    "submittedSub": "谢谢。您的健康协调员将在预约前审核此信息。",
+    "newForm": "填写新表格"
+  },
+  "nav": { "back": "上一步", "next": "下一步", "noneEntered": "未填写" }
+}

@@ -1,126 +1,6 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Check, Languages, Stethoscope } from "lucide-react";
-
-const STRINGS = {
-  en: {
-    appName: "PreCheck",
-    tagline: "Pre-checkup health form",
-    langLabel: "EN",
-    steps: ["Basics", "Symptoms", "History", "Work", "Review"],
-    stepBasics: {
-      title: "Let's start with the basics",
-      sub: "This information helps the clinic prepare for your visit.",
-      fullName: "Full name",
-      fullNamePh: "As shown on your residence card",
-      dob: "Date of birth",
-      nationality: "Nationality",
-      nationalityPh: "e.g. Vietnam, Indonesia",
-      phone: "Phone number",
-      company: "Employer / accepting organization",
-      companyPh: "Company name",
-    },
-    stepSymptoms: {
-      title: "How are you feeling right now?",
-      sub: "Select anything you're currently experiencing. It's okay to select none.",
-      none: "No symptoms right now",
-      list: ["Fever", "Cough", "Fatigue", "Headache", "Stomach pain", "Trouble sleeping", "Skin issues", "Joint or back pain"],
-      notes: "Anything else you want the doctor to know?",
-      notesPh: "Write in your own words, in any language",
-    },
-    stepHistory: {
-      title: "Medical history",
-      sub: "This stays confidential and is only shared with your care team.",
-      conditions: "Do you have any ongoing medical conditions?",
-      conditionsPh: "e.g. diabetes, high blood pressure, asthma",
-      medications: "Are you currently taking any medications?",
-      medicationsPh: "List medication names if known",
-      allergies: "Do you have any allergies?",
-      allergiesPh: "Medication, food, or other allergies",
-      surgeries: "Have you had any surgeries in the past?",
-      surgeriesPh: "Type and approximate year, if any",
-    },
-    stepWork: {
-      title: "About your work",
-      sub: "Used to check for job-related health risks.",
-      jobType: "Type of work",
-      jobTypePh: "e.g. food processing, construction, caregiving",
-      hoursPerWeek: "Approximate hours per week",
-      physicalDemand: "How physically demanding is your job?",
-      demandLevels: ["Light", "Moderate", "Heavy"],
-      exposures: "Are you regularly exposed to any of these at work?",
-      exposureList: ["Loud noise", "Heavy lifting", "Chemicals", "Extreme heat/cold", "Standing all day"],
-    },
-    review: {
-      title: "Review your answers",
-      sub: "Please check everything looks right before submitting.",
-      editHint: "Go back to edit any section",
-      submit: "Submit form",
-      submitted: "Form submitted",
-      submittedSub: "Thank you. Your care coordinator will review this before your appointment.",
-      newForm: "Start a new form",
-    },
-    nav: { back: "Back", next: "Next", noneEntered: "Not provided" },
-  },
-  zh: {
-    appName: "PreCheck",
-    tagline: "健康检查前问诊表",
-    langLabel: "中文",
-    steps: ["基本信息", "身体症状", "病史", "工作情况", "确认"],
-    stepBasics: {
-      title: "先填写基本信息",
-      sub: "这些信息将帮助诊所为您的就诊做好准备。",
-      fullName: "姓名",
-      fullNamePh: "请与在留卡上的姓名一致",
-      dob: "出生日期",
-      nationality: "国籍",
-      nationalityPh: "例如：越南、印度尼西亚",
-      phone: "电话号码",
-      company: "雇主 / 接收单位",
-      companyPh: "公司名称",
-    },
-    stepSymptoms: {
-      title: "您现在感觉怎么样？",
-      sub: "请勾选您目前的症状，没有的话可以不选。",
-      none: "目前没有症状",
-      list: ["发烧", "咳嗽", "疲劳", "头痛", "胃痛", "睡眠不好", "皮肤问题", "关节或背部疼痛"],
-      notes: "还有什么想告诉医生的吗？",
-      notesPh: "可以用任何语言自由填写",
-    },
-    stepHistory: {
-      title: "既往病史",
-      sub: "此信息将严格保密，仅提供给您的医疗团队。",
-      conditions: "您是否有持续性的疾病？",
-      conditionsPh: "例如：糖尿病、高血压、哮喘",
-      medications: "您目前是否在服用药物？",
-      medicationsPh: "如知道，请列出药物名称",
-      allergies: "您是否有过敏史？",
-      allergiesPh: "药物、食物或其他过敏",
-      surgeries: "您过去是否做过手术？",
-      surgeriesPh: "手术类型及大致年份（如有）",
-    },
-    stepWork: {
-      title: "关于您的工作",
-      sub: "用于检查与工作相关的健康风险。",
-      jobType: "工作类型",
-      jobTypePh: "例如：食品加工、建筑、护理",
-      hoursPerWeek: "每周大致工作时长",
-      physicalDemand: "您的工作体力消耗程度如何？",
-      demandLevels: ["轻松", "中等", "繁重"],
-      exposures: "您在工作中是否经常接触以下情况？",
-      exposureList: ["噪音", "重物搬运", "化学品", "极端高温/低温", "长时间站立"],
-    },
-    review: {
-      title: "确认您的答案",
-      sub: "提交前请检查所有内容是否正确。",
-      editHint: "返回可修改任意部分",
-      submit: "提交表格",
-      submitted: "表格已提交",
-      submittedSub: "谢谢。您的健康协调员将在预约前审核此信息。",
-      newForm: "填写新表格",
-    },
-    nav: { back: "上一步", next: "下一步", noneEntered: "未填写" },
-  },
-};
+import { locales, langCodes, type LangCode } from "../locales";
 
 const emptyForm = {
   fullName: "", dob: "", nationality: "", phone: "", company: "",
@@ -130,11 +10,11 @@ const emptyForm = {
 };
 
 export default function IntakeForm() {
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState<LangCode>("en");
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(emptyForm);
   const [submitted, setSubmitted] = useState(false);
-  const t = STRINGS[lang];
+  const t = locales[lang];
 
   const totalSteps = t.steps.length;
 
@@ -189,7 +69,7 @@ export default function IntakeForm() {
             </div>
           </div>
           <div className="flex rounded-full bg-[#F0F2F1] p-1">
-            {["en", "zh"].map((code) => (
+            {langCodes.map((code) => (
               <button
                 key={code}
                 onClick={() => setLang(code)}
@@ -198,7 +78,7 @@ export default function IntakeForm() {
                 }`}
               >
                 {code === lang && <Languages size={13} />}
-                {STRINGS[code].langLabel}
+                {locales[code].langLabel}
               </button>
             ))}
           </div>
@@ -220,7 +100,9 @@ export default function IntakeForm() {
                 ))}
               </div>
               <div className="text-xs font-medium tracking-wide uppercase text-[#0F6E5E] mb-1">
-                {lang === "en" ? `Step ${step + 1} of ${totalSteps}` : `第 ${step + 1} / ${totalSteps} 步`}
+                {t.stepOf
+                  .replace("{current}", String(step + 1))
+                  .replace("{total}", String(totalSteps))}
               </div>
             </div>
 

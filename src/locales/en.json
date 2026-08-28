@@ -1,0 +1,60 @@
+{
+  "appName": "PreCheck",
+  "tagline": "Pre-checkup health form",
+  "langLabel": "EN",
+  "steps": ["Basics", "Symptoms", "History", "Work", "Review"],
+  "stepOf": "Step {current} of {total}",
+  "stepBasics": {
+    "title": "Let's start with the basics",
+    "sub": "This information helps the clinic prepare for your visit.",
+    "fullName": "Full name",
+    "fullNamePh": "As shown on your residence card",
+    "dob": "Date of birth",
+    "nationality": "Nationality",
+    "nationalityPh": "e.g. Vietnam, Indonesia",
+    "phone": "Phone number",
+    "company": "Employer / accepting organization",
+    "companyPh": "Company name"
+  },
+  "stepSymptoms": {
+    "title": "How are you feeling right now?",
+    "sub": "Select anything you're currently experiencing. It's okay to select none.",
+    "none": "No symptoms right now",
+    "list": ["Fever", "Cough", "Fatigue", "Headache", "Stomach pain", "Trouble sleeping", "Skin issues", "Joint or back pain"],
+    "notes": "Anything else you want the doctor to know?",
+    "notesPh": "Write in your own words, in any language"
+  },
+  "stepHistory": {
+    "title": "Medical history",
+    "sub": "This stays confidential and is only shared with your care team.",
+    "conditions": "Do you have any ongoing medical conditions?",
+    "conditionsPh": "e.g. diabetes, high blood pressure, asthma",
+    "medications": "Are you currently taking any medications?",
+    "medicationsPh": "List medication names if known",
+    "allergies": "Do you have any allergies?",
+    "allergiesPh": "Medication, food, or other allergies",
+    "surgeries": "Have you had any surgeries in the past?",
+    "surgeriesPh": "Type and approximate year, if any"
+  },
+  "stepWork": {
+    "title": "About your work",
+    "sub": "Used to check for job-related health risks.",
+    "jobType": "Type of work",
+    "jobTypePh": "e.g. food processing, construction, caregiving",
+    "hoursPerWeek": "Approximate hours per week",
+    "physicalDemand": "How physically demanding is your job?",
+    "demandLevels": ["Light", "Moderate", "Heavy"],
+    "exposures": "Are you regularly exposed to any of these at work?",
+    "exposureList": ["Loud noise", "Heavy lifting", "Chemicals", "Extreme heat/cold", "Standing all day"]
+  },
+  "review": {
+    "title": "Review your answers",
+    "sub": "Please check everything looks right before submitting.",
+    "editHint": "Go back to edit any section",
+    "submit": "Submit form",
+    "submitted": "Form submitted",
+    "submittedSub": "Thank you. Your care coordinator will review this before your appointment.",
+    "newForm": "Start a new form"
+  },
+  "nav": { "back": "Back", "next": "Next", "noneEntered": "Not provided" }
+}
