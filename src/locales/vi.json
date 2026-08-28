@@ -1,0 +1,62 @@
+{
+  "appName": "PreCheck",
+  "tagline": "Phiếu khai trước khi khám sức khỏe",
+  "langLabel": "Tiếng Việt",
+  "steps": ["Thông tin cơ bản", "Triệu chứng", "Tiền sử bệnh", "Công việc", "Xác nhận"],
+  "stepOf": "Bước {current} / {total}",
+  "stepBasics": {
+    "title": "Hãy bắt đầu với thông tin cơ bản",
+    "sub": "Thông tin này giúp phòng khám chuẩn bị cho buổi khám của bạn.",
+    "fullName": "Họ và tên",
+    "fullNamePh": "Ghi như trên thẻ cư trú",
+    "dob": "Ngày sinh",
+    "nationality": "Quốc tịch",
+    "nationalityPh": "Ví dụ: Việt Nam, Indonesia",
+    "phone": "Số điện thoại",
+    "company": "Công ty / Đơn vị tiếp nhận",
+    "companyPh": "Tên công ty"
+  },
+  "stepSymptoms": {
+    "title": "Hiện tại bạn cảm thấy thế nào?",
+    "sub": "Chọn những triệu chứng bạn đang gặp phải. Có thể không chọn mục nào.",
+    "none": "Hiện không có triệu chứng",
+    "list": ["Sốt", "Ho", "Mệt mỏi", "Đau đầu", "Đau bụng", "Khó ngủ", "Vấn đề về da", "Đau khớp hoặc đau lưng"],
+    "notes": "Bạn có muốn nói thêm điều gì với bác sĩ không?",
+    "notesPh": "Hãy viết bằng ngôn ngữ bạn thấy thoải mái"
+  },
+  "stepHistory": {
+    "title": "Tiền sử bệnh",
+    "sub": "Thông tin này được bảo mật và chỉ chia sẻ với đội ngũ chăm sóc sức khỏe của bạn.",
+    "conditions": "Bạn có đang mắc bệnh mãn tính nào không?",
+    "conditionsPh": "Ví dụ: tiểu đường, cao huyết áp, hen suyễn",
+    "medications": "Bạn có đang dùng thuốc nào không?",
+    "medicationsPh": "Ghi tên thuốc nếu biết",
+    "allergies": "Bạn có bị dị ứng gì không?",
+    "allergiesPh": "Dị ứng thuốc, thực phẩm hoặc khác",
+    "surgeries": "Bạn đã từng phẫu thuật chưa?",
+    "surgeriesPh": "Loại phẫu thuật và năm thực hiện (nếu có)"
+  },
+  "stepWork": {
+    "title": "Về công việc của bạn",
+    "sub": "Dùng để kiểm tra các rủi ro sức khỏe liên quan đến công việc.",
+    "jobType": "Loại công việc",
+    "jobTypePh": "Ví dụ: chế biến thực phẩm, xây dựng, chăm sóc người khác",
+    "hoursPerWeek": "Số giờ làm việc mỗi tuần (ước tính)",
+    "physicalDemand": "Công việc của bạn đòi hỏi thể lực ở mức nào?",
+    "demandLevels": ["Nhẹ", "Trung bình", "Nặng"],
+    "exposures": "Bạn có thường xuyên tiếp xúc với những yếu tố sau tại nơi làm việc không?",
+    "exposureList": ["Tiếng ồn lớn", "Khuân vác nặng", "Hóa chất", "Nhiệt độ quá nóng/lạnh", "Đứng cả ngày"]
+  },
+  "review": {
+    "title": "Xem lại câu trả lời của bạn",
+    "sub": "Vui lòng kiểm tra kỹ trước khi gửi.",
+    "editHint": "Quay lại để chỉnh sửa bất kỳ phần nào",
+    "submit": "Gửi biểu mẫu",
+    "submitting": "Đang gửi...",
+    "submitError": "Không thể gửi biểu mẫu",
+    "submitted": "Đã gửi biểu mẫu",
+    "submittedSub": "Cảm ơn bạn. Điều phối viên chăm sóc sẽ xem xét thông tin này trước buổi hẹn của bạn.",
+    "newForm": "Bắt đầu biểu mẫu mới"
+  },
+  "nav": { "back": "Quay lại", "next": "Tiếp theo", "noneEntered": "Chưa cung cấp" }
+}

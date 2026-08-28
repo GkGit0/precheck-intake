@@ -1,0 +1,62 @@
+{
+  "appName": "PreCheck",
+  "tagline": "Formulir pra-pemeriksaan kesehatan",
+  "langLabel": "Bahasa Indonesia",
+  "steps": ["Data Dasar", "Gejala", "Riwayat Kesehatan", "Pekerjaan", "Konfirmasi"],
+  "stepOf": "Langkah {current} dari {total}",
+  "stepBasics": {
+    "title": "Mari mulai dengan data dasar",
+    "sub": "Informasi ini membantu klinik mempersiapkan kunjungan Anda.",
+    "fullName": "Nama lengkap",
+    "fullNamePh": "Sesuai kartu izin tinggal Anda",
+    "dob": "Tanggal lahir",
+    "nationality": "Kewarganegaraan",
+    "nationalityPh": "Contoh: Vietnam, Indonesia",
+    "phone": "Nomor telepon",
+    "company": "Perusahaan / Lembaga penerima",
+    "companyPh": "Nama perusahaan"
+  },
+  "stepSymptoms": {
+    "title": "Bagaimana perasaan Anda saat ini?",
+    "sub": "Pilih semua yang sedang Anda rasakan. Boleh tidak memilih apa pun.",
+    "none": "Tidak ada gejala saat ini",
+    "list": ["Demam", "Batuk", "Kelelahan", "Sakit kepala", "Sakit perut", "Sulit tidur", "Masalah kulit", "Nyeri sendi atau punggung"],
+    "notes": "Ada hal lain yang ingin Anda sampaikan ke dokter?",
+    "notesPh": "Tulis dengan bahasa Anda sendiri, bahasa apa pun"
+  },
+  "stepHistory": {
+    "title": "Riwayat kesehatan",
+    "sub": "Informasi ini bersifat rahasia dan hanya dibagikan kepada tim perawatan Anda.",
+    "conditions": "Apakah Anda memiliki kondisi kesehatan yang sedang berlangsung?",
+    "conditionsPh": "Contoh: diabetes, tekanan darah tinggi, asma",
+    "medications": "Apakah Anda sedang mengonsumsi obat tertentu?",
+    "medicationsPh": "Sebutkan nama obat jika diketahui",
+    "allergies": "Apakah Anda memiliki alergi?",
+    "allergiesPh": "Alergi obat, makanan, atau lainnya",
+    "surgeries": "Apakah Anda pernah menjalani operasi?",
+    "surgeriesPh": "Jenis operasi dan perkiraan tahun, jika ada"
+  },
+  "stepWork": {
+    "title": "Tentang pekerjaan Anda",
+    "sub": "Digunakan untuk memeriksa risiko kesehatan terkait pekerjaan.",
+    "jobType": "Jenis pekerjaan",
+    "jobTypePh": "Contoh: pengolahan makanan, konstruksi, perawatan lansia",
+    "hoursPerWeek": "Perkiraan jam kerja per minggu",
+    "physicalDemand": "Seberapa berat tuntutan fisik pekerjaan Anda?",
+    "demandLevels": ["Ringan", "Sedang", "Berat"],
+    "exposures": "Apakah Anda sering terpapar hal-hal berikut di tempat kerja?",
+    "exposureList": ["Suara bising", "Mengangkat beban berat", "Bahan kimia", "Suhu ekstrem panas/dingin", "Berdiri sepanjang hari"]
+  },
+  "review": {
+    "title": "Tinjau jawaban Anda",
+    "sub": "Silakan periksa kembali sebelum mengirimkan.",
+    "editHint": "Kembali untuk mengedit bagian mana pun",
+    "submit": "Kirim formulir",
+    "submitting": "Mengirim...",
+    "submitError": "Formulir gagal dikirim",
+    "submitted": "Formulir terkirim",
+    "submittedSub": "Terima kasih. Koordinator perawatan Anda akan meninjau ini sebelum janji temu Anda.",
+    "newForm": "Mulai formulir baru"
+  },
+  "nav": { "back": "Kembali", "next": "Berikutnya", "noneEntered": "Belum diisi" }
+}
