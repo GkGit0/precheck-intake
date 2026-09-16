@@ -103,12 +103,18 @@ export type IntakeResponse = {
   createdAt: string;
 };
 
+// Turso/libSQL sends args as UTF-8 JSON over HTTP; unpaired surrogate code units
+// (e.g. from broken emoji/IME input) can't be encoded as valid UTF-8 and make the
+// server reject the whole request with a generic HTTP 400. Local sqlite3 bindings
+// don't go through a UTF-8 transport, so this only surfaces against Turso.
+const sanitizeText = (value: string): string => Buffer.from(value, "utf8").toString("utf8");
+
 const textOrNull = (value: unknown): string | null => {
   if (typeof value !== "string") {
     return null;
   }
 
-  const trimmed = value.trim();
+  const trimmed = sanitizeText(value).trim();
   return trimmed.length > 0 ? trimmed : null;
 };
 
@@ -122,7 +128,9 @@ const stringArray = (value: unknown): string[] => {
     return [];
   }
 
-  return value.filter((item): item is string => typeof item === "string");
+  return value
+    .filter((item): item is string => typeof item === "string")
+    .map(sanitizeText);
 };
 
 const integerOrNull = (value: unknown): number | null => {
