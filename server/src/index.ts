@@ -60,7 +60,9 @@ app.get("/api/intake/:id", async (req, res, next) => {
 });
 
 const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
-  console.error(error);
+  const code = error instanceof Error && "code" in error ? (error as { code?: unknown }).code : undefined;
+  const cause = error instanceof Error ? error.cause : undefined;
+  console.error("Request failed:", { message: error instanceof Error ? error.message : error, code, cause, stack: error instanceof Error ? error.stack : undefined });
   res.status(500).json({ error: "internal server error" });
 };
 
