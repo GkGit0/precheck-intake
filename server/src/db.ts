@@ -9,14 +9,22 @@ if (!tursoDatabaseUrl || !tursoAuthToken) {
 
 let dbPromise: Promise<Client> | null = null;
 
+// A transient failure here (e.g. a one-off network/gateway error from Turso) must not
+// permanently break every future request: without resetting dbPromise on failure, the
+// rejected promise stays cached for the life of the process, so every subsequent call
+// would immediately reject with the same stale error instead of retrying.
 const getDatabase = async (): Promise<Client> => {
-  dbPromise ??= Promise.resolve(
-    createClient({
+  if (dbPromise) {
+    return dbPromise;
+  }
+
+  const promise = (async () => {
+    const database = createClient({
       url: tursoDatabaseUrl,
       authToken: tursoAuthToken,
       intMode: "number"
-    })
-  ).then(async (database) => {
+    });
+
     await database.executeMultiple(`
       CREATE TABLE IF NOT EXISTS intake_responses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,9 +48,16 @@ const getDatabase = async (): Promise<Client> => {
     `);
 
     return database;
-  });
+  })();
 
-  return dbPromise;
+  dbPromise = promise;
+
+  try {
+    return await promise;
+  } catch (error) {
+    dbPromise = null;
+    throw error;
+  }
 };
 
 export type IntakePayload = {
