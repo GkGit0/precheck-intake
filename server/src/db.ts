@@ -25,7 +25,10 @@ const getDatabase = async (): Promise<Client> => {
       intMode: "number"
     });
 
-    await database.executeMultiple(`
+    // executeMultiple() is for running several ;-separated statements; this is a single
+    // CREATE TABLE, so use execute() — the same request path already proven reliable for
+    // every other query in this file, avoiding executeMultiple's separate "sequence" API.
+    await database.execute(`
       CREATE TABLE IF NOT EXISTS intake_responses (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         full_name TEXT NOT NULL,
